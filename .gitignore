@@ -1,0 +1,11 @@
+db/
+incremental_db/
+vunit_out/
+*.rpt
+*.done
+*.summary
+*.jdi
+*.cdf
+*.smsg
+*.bak
+*.pin
