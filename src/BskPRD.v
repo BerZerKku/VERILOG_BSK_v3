@@ -1,5 +1,5 @@
 module BskPRD # (
-	parameter [6:0]	VERSION 	= 7'h25,		// версия прошивки
+	parameter [6:0]	VERSION 	= 7'h31,		// версия прошивки
 	parameter [7:0]	PASSWORD	= 8'hA4,		// пароль
 	parameter [3:0]	CS			= 4'b1011		// адрес микросхемы
 ) (
@@ -22,7 +22,7 @@ module BskPRD # (
 );
 
 	// тактовая частота
-	localparam CLOCK_IN 	= 'd2_000_000;	
+	localparam CLOCK_IN 	= 'd4_000_000;	
 
 	// частота тестового сигнала
 	localparam TEST_FREQ	= 'd250_000;	

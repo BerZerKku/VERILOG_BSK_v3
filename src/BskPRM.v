@@ -1,5 +1,5 @@
 module BskPRM # (
-	parameter [5:0]	VERSION 	= 6'h24,		// версия прошивки
+	parameter [5:0]	VERSION 	= 6'h31,		// версия прошивки
 	parameter [7:0]	PASSWORD	= 8'hA6,		// пароль
 	parameter [3:0]	CS			= 4'b0111		// адрес микросхемы
 ) (
