@@ -33,101 +33,58 @@ module tb_BskLED;
       end
 
       // проверка индикации передатчика
-      `TEST_CASE("test_leds_prd") begin : test_leds_prd
+      `TEST_CASE("test_leds") begin : test_leds
             
          iLedPrd = 16'hAAAA;
          iLedPrm = 16'h5555;
+         #1;
 
-         // начальное состояние
+         // установка данных прд (начальное состояние)
          `CHECK_EQUAL(oLePrd, 1'b0);
+         `CHECK_EQUAL(oLePrm, 1'b0);
+         `CHECK_EQUAL(oLed, iLedPrd);
          
-         tick();
-         `CHECK_EQUAL(oLePrd, 1'b0);
-         `CHECK_EQUAL(oLed, iLedPrd);
-
-         for(int i = 1; i < CNT_MAX; i++) begin
-            tick();
-            `CHECK_EQUAL(oLePrd, 1'b1);
-            `CHECK_EQUAL(oLed, iLedPrd);
-         end
-
-         for(int i = 0; i < CNT_MAX; i++) begin
-            tick();
-            `CHECK_EQUAL(oLePrd, 1'b0);
-            `CHECK_EQUAL(oLed, iLedPrm);
-         end
-
-         tick();
-         `CHECK_EQUAL(oLePrd, 1'b0);
-         `CHECK_EQUAL(oLed, iLedPrd);
-
+         // запись прд
          tick();
          `CHECK_EQUAL(oLePrd, 1'b1);
+         `CHECK_EQUAL(oLePrm, 1'b0);
          `CHECK_EQUAL(oLed, iLedPrd);
 
-         iLedPrd = 16'h1234;
+         // установка данных прм
          tick();
-         `CHECK_EQUAL(oLed, iLedPrd);
-      end
-
-      // проверка индикации приемника
-      `TEST_CASE("test_leds_prm") begin : test_leds_prm
-         iLedPrd = 16'hAAAA;
-         iLedPrm = 16'h5555;
-
-         // начальное состояние
+         `CHECK_EQUAL(oLePrd, 1'b0);
          `CHECK_EQUAL(oLePrm, 1'b0);
+         `CHECK_EQUAL(oLed, iLedPrm);
 
+         // запись прм
          tick();
-         `CHECK_EQUAL(oLePrm, 1'b0);
-
-         tick();
-         `CHECK_EQUAL(oLePrm, 1'b0);
-
-         tick();
+         `CHECK_EQUAL(oLePrd, 1'b0);
          `CHECK_EQUAL(oLePrm, 1'b1);
+         `CHECK_EQUAL(oLed, iLedPrm);
 
+         // установка данных прд
+         tick();
+         `CHECK_EQUAL(oLePrd, 1'b0);
+         `CHECK_EQUAL(oLePrm, 1'b0);
+         `CHECK_EQUAL(oLed, iLedPrd);
 
+         // запись прд
+         tick();
+         `CHECK_EQUAL(oLePrd, 1'b1);
+         `CHECK_EQUAL(oLePrm, 1'b0);
+         `CHECK_EQUAL(oLed, iLedPrd);
 
-         // // индикация команд передатчика
-         // for(int i = 0; i < CNT_MAX; i++) begin
-         //    tick();
-         //    `CHECK_EQUAL(oLePrm, 1'b0);
-         //    `CHECK_EQUAL(oLed, iLedPrd);
+         // установка данных прм
+         tick();
+         `CHECK_EQUAL(oLePrd, 1'b0);
+         `CHECK_EQUAL(oLePrm, 1'b0);
+         `CHECK_EQUAL(oLed, iLedPrm);
 
-         // end
-
-         // tick();
-         // `CHECK_EQUAL(oLePrm, 1'b0);
-         // `CHECK_EQUAL(oLed, iLedPrm);
-
-         // // индикация команд приемника
-         // for(int i = 1; i < CNT_MAX; i++) begin
-         //    $display("%d", i);
-         //    tick();
-         //    `CHECK_EQUAL(oLePrm, 1'b1);
-         //    `CHECK_EQUAL(oLed, iLedPrm);
-         // end
-
-         // // индикация команд передатчика
-         // for(int i = 0; i < CNT_MAX; i++) begin
-         //    tick();
-         //    `CHECK_EQUAL(oLePrm, 1'b0);
-         //    `CHECK_EQUAL(oLed, iLedPrd);
-         // end
-
-         // tick();
-         // `CHECK_EQUAL(oLePrm, 1'b0);
-         // `CHECK_EQUAL(oLed, iLedPrm);
-
-         // tick();
-         // `CHECK_EQUAL(oLePrm, 1'b1);
-         // `CHECK_EQUAL(oLed, iLedPrm);
-
-         // iLedPrm = 16'h1234;
-         // tick();
-         // `CHECK_EQUAL(oLed, iLedPrm);
-
+         // проверка установки данных, во время такта
+         iLedPrm = 16'h1234;
+         #1;
+         `CHECK_EQUAL(oLed, iLedPrm);
+        
       end
 
    end;

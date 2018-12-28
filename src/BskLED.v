@@ -3,19 +3,21 @@ module BskLED (
 	input wire [15:0] iLedPrd,	// индикация команд передатчика
 	input wire [15:0] iLedPrm,	// индикация команд приемника
 								
-										// (0 - хранение данных, 1 - запись нового значения)
+								// (0 - хранение данных, 1 - запись нового значения)
 	output reg oLePrd,			// сигнал управления буфером индикации команд передатчика 
 	output reg oLePrm,			// сигнал управления буфером индикации команд приемника 
 
 	output wire [15:0] oLed 	// выход индикации команд (активный 0)
 );
 	
+	// хранение данных
 	localparam LE_DATA 	= 1'b0;
-	localparam LE_LATCH 	= 1'b1;
+	// установка нового значения
+	localparam LE_LATCH = 1'b1;
 	
-	reg latch;
-	
+	// индикация команд передатчика
 	localparam SET_PRD 	= 1'b0;
+	// индикация команд приемника
 	localparam SET_PRM	= 1'b1;
 	
 	reg state;
@@ -27,7 +29,6 @@ module BskLED (
 	end 
 	
 	assign oLed = (state == SET_PRD) ? iLedPrd : iLedPrm;
-//	assign oLed = (state == SET_PRD) ? 16'hFF00 : 16'h00FF;
 	
 	always @ (posedge clk) begin : main
 	
