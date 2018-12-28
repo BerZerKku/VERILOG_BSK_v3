@@ -4,7 +4,7 @@ editor if you plan to continue editing the block that represents it in
 the Block Editor! File corruption is VERY likely to occur.
 */
 /*
-Copyright (C) 2017  Intel Corporation. All rights reserved.
+Copyright (C) 2016  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
 and other software and tools, and its AMPP partner logic 
 functions, and any output files from any of the foregoing 
@@ -12,17 +12,18 @@ functions, and any output files from any of the foregoing
 associated documentation or information are expressly subject 
 to the terms and conditions of the Intel Program License 
 Subscription Agreement, the Intel Quartus Prime License Agreement,
-the Intel FPGA IP License Agreement, or other applicable license
-agreement, including, without limitation, that your use is for
-the sole purpose of programming logic devices manufactured by
-Intel and sold by Intel or its authorized distributors.  Please
-refer to the applicable agreement for further details.
+the Intel MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Intel and sold by Intel or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 224 224)
+	(rect 16 16 224 256)
 	(text "BskPRD" (rect 5 0 41 12)(font "Arial" ))
-	(text "inst" (rect 8 192 20 204)(font "Arial" ))
+	(text "inst" (rect 8 224 20 236)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -82,9 +83,23 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 160)
 		(input)
+		(text "unit" (rect 0 0 12 12)(font "Arial" ))
+		(text "unit" (rect 21 155 33 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 1))
+	)
+	(port
+		(pt 0 176)
+		(input)
 		(text "iCom[15..0]" (rect 0 0 44 12)(font "Arial" ))
-		(text "iCom[15..0]" (rect 21 155 65 167)(font "Arial" ))
-		(line (pt 0 160)(pt 16 160)(line_width 3))
+		(text "iCom[15..0]" (rect 21 171 65 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 3))
+	)
+	(port
+		(pt 0 192)
+		(input)
+		(text "iTest" (rect 0 0 18 12)(font "Arial" ))
+		(text "iTest" (rect 21 187 39 199)(font "Arial" ))
+		(line (pt 0 192)(pt 16 192)(line_width 1))
 	)
 	(port
 		(pt 208 48)
@@ -121,23 +136,7 @@ refer to the applicable agreement for further details.
 		(text "bD[15..0]" (rect 152 27 187 39)(font "Arial" ))
 		(line (pt 208 32)(pt 192 32)(line_width 3))
 	)
-	(parameter
-		"VERSION"
-		"0100101"
-		""
-		(type "PARAMETER_UNSIGNED_BIN")	)
-	(parameter
-		"PASSWORD"
-		"10100100"
-		""
-		(type "PARAMETER_UNSIGNED_BIN")	)
-	(parameter
-		"CS"
-		"1011"
-		""
-		(type "PARAMETER_UNSIGNED_BIN")	)
 	(drawing
-		(rectangle (rect 16 16 192 192)(line_width 1))
+		(rectangle (rect 16 16 192 224)(line_width 1))
 	)
-	(annotation_block (parameter)(rect 224 -64 324 16))
 )

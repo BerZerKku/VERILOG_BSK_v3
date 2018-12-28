@@ -143,8 +143,8 @@ set_location_assignment PIN_94 -to PRM_COM_FB[3]
 set_location_assignment PIN_88 -to PRM_COM_FB[2]
 set_location_assignment PIN_86 -to PRM_COM_FB[1]
 set_location_assignment PIN_84 -to PRM_COM_FB[0]
-set_location_assignment PIN_144 -to LE_PRD
-set_location_assignment PIN_130 -to LE_PRM
+set_location_assignment PIN_130 -to LE_PRD
+set_location_assignment PIN_144 -to LE_PRM
 set_location_assignment PIN_73 -to SW_BSK[1]
 set_location_assignment PIN_72 -to SW_BSK[2]
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "NO HEAT SINK WITH STILL AIR"
@@ -163,12 +163,28 @@ set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to user_reserve_1
 set_location_assignment PIN_61 -to user_reserve_2
 set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to user_reserve_2
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to TEST1
+set_global_assignment -name SYSTEMVERILOG_FILE src/BskPRD.sv
 set_global_assignment -name VERILOG_FILE src/clkdiv.v
 set_global_assignment -name VERILOG_FILE src/BskLED.v
 set_global_assignment -name VERILOG_FILE src/BskPRM.v
-set_global_assignment -name VERILOG_FILE src/BskPRD.v
 set_global_assignment -name BDF_FILE Plis_Bsk_v3_01.bdf
 set_global_assignment -name BDF_FILE plis_bsk_v3_01.bdf
 set_global_assignment -name CDF_FILE output_files/CPLD_BSK_v3_01.cdf
-set_global_assignment -name CDF_FILE CPLD_BSK_v3_01.cdf
-set_global_assignment -name QIP_FILE counter8bit.qip
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LE_PRD
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LE_PRM
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[0]
