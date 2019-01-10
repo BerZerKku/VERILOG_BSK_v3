@@ -4,7 +4,7 @@ module BskPRD (
     input  wire iWr,            // сигнал записи (активный 0)
     input  wire iRes,           // сигнал сброса (активный 0)
     input  wire iBl,            // сигнал блокирования (активный 0)
-    input  wire iDevice,        // ???
+    input  wire iDevice,        // ! не используется
     input  wire clk,            // тактовая частота
     input  wire [1:0] iA,       // шина адреса
     input  wire [3:0] iCS,      // сигнал выбора микросхемы 
@@ -35,18 +35,12 @@ module BskPRD (
     
     // начальное состояние регистра команд индикации (активный 1)
     localparam COM_IND_DEFAULT = 16'h0000;
-
-    // количество ступеней в фильтре входной команды
-    localparam NUM_COM_FILTER = 4;
     
     // разрешение передачи тестового сигнала (активный 1)
     reg test_en = 1'b0;  
 
     // шина чтения / записи
     wire [15:0] data_bus;
-
-    // регистры фильтра команд
-    reg [15:0] icom_buf [NUM_COM_FILTER - 1:0];
     
     // команды (активный 0).
     reg [15:0] com = COM_DEFAULT;
@@ -60,47 +54,35 @@ module BskPRD (
     // сигнал выбора микросхемы (активный 1)
     wire cs = (iCS == {CS[3:2], !unit, CS[0]});
     
-    wire [7:0] unit_code  = UNIT_CODE + unit; 
-    
-    // набор сигналов для считывания
-    wire [15:0] in0, in1, in3; 
-    
+    // код модуля
+    wire [7:0] unit_code  = UNIT_CODE + unit;     
     
     initial begin
         //
     end 
     
     // Тестовый сигнал
-//    assign oTest = (iBl && test_en) ? iTest : 1'b0; 
-	assign oTest = (test_en) ? iTest : 1'b0; 
+    assign oTest = (iBl && test_en) ? iTest : 1'b0; 
+//    assign oTest = (test_en) ? iTest : 1'b0; 
     
     // сигнал выбора микросхемы (активный 0)
     assign oCS = !cs;
 
     // индикация команд 
     assign oComInd = ~com_ind;
-
-    // набор сигналов для считывания с адреса 'b00
-    assign in0 = {~com[7:4],com[7:4],~com[3:0],com[3:0]};
-
-    // набор сигналов для считывания с адреса 'b01
-    assign in1 = {~com[15:12],com[15:12],~com[11:8],com[11:8]}; 
-
-    // набор сигналов для считывания c адреса 'b11
-    assign in3 = {unit_code, VERSION, test_en};
     
     // сигналы отладки
 //    assign debug = in3;
-	 assign debug = 16'h0000;
+    assign debug = 16'h0000;
     
     // двунаправленная шина данных
     assign bD = (iRd || !cs) ? 16'bZ : data_bus; 
     
     // шина чтения
-    assign data_bus = (iA == 2'b00) ? in0 :
-                      (iA == 2'b01) ? in1 :
+    assign data_bus = (iA == 2'b00) ? {~com[7:4],com[7:4],~com[3:0],com[3:0]}:
+                      (iA == 2'b01) ? {~com[15:12],com[15:12],~com[11:8],com[11:8]}:
                       (iA == 2'b10) ? com_ind : 
-                                      in3;  
+                                      {unit_code, VERSION, test_en};  
                       
     // чтение данных 
     always @ (cs or iRd  or iA or aclr) begin : data_read
@@ -108,8 +90,7 @@ module BskPRD (
             com <= COM_DEFAULT;
         end
         else begin
-//            com <= icom_buf[0];
-				com = iCom;
+            com <= iCom;
         end
     end
 
@@ -124,23 +105,6 @@ module BskPRD (
                 2'b10: com_ind <= bD;
                 2'b11: test_en <= bD[0];
             endcase
-        end
-    end
-    
-    always @ (posedge clk or posedge aclr) begin : com_in_filter
-        integer index;
-
-        if (aclr) begin         
-            for(index = 0; index < NUM_COM_FILTER; index = index + 1) begin
-                icom_buf[index] <= COM_DEFAULT;
-            end 
-        end 
-        else begin          
-            icom_buf[NUM_COM_FILTER - 1] = iCom;
-            for(index = NUM_COM_FILTER - 1; index > 0; index = index - 1) begin
-                // Чей-то тут не то!!!
-                icom_buf[index - 1] <= (iCom ^ icom_buf[index]) | iCom; 
-            end
         end
     end
 

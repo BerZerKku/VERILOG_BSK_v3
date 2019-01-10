@@ -15,7 +15,7 @@ module tb_BskPRD;
    localparam integer CLK_PERIOD = 500; // ns
    localparam integer DATA_BUS_DEF = 16'h1234;
 
-   localparam VERSION = 7'h25;
+   localparam VERSION = 7'h31;
    localparam PASSWORD = 8'hA4;
    localparam CS_16_01 = 4'b1011;
    localparam CS_32_17 = 4'b1001;
