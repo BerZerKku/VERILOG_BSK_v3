@@ -21,6 +21,8 @@ module tb_BskPRD;
    localparam CS_32_17 = 4'b1001;
    localparam UNIT = 1'b0;
 
+   localparam BL_LEVEL = 1'b1;
+
 
    wire [15:0] bD;      // шина данных
    reg iRd;             // сигнал чтения (активный 0)
@@ -54,7 +56,7 @@ module tb_BskPRD;
       `TEST_SUITE_SETUP begin
          iCS = ~CS_16_01;
          iA = 2'b00;
-         iBl = 1'b0;
+         iBl = BL_LEVEL;
          iRes = 1'b0;
          iWr = 1'b1;
          iRd = 1'b1;
@@ -246,9 +248,9 @@ module tb_BskPRD;
          `CHECK_EQUAL(oComInd, ~data_bus);
 
          // проверка влияния сигнала блокировки
-         iBl = 1'b1; #1;
+         iBl = ~BL_LEVEL; #1;
          `CHECK_EQUAL(oComInd, ~data_bus);
-         iBl = 1'b0; #1;
+         iBl = BL_LEVEL; #1;
          `CHECK_EQUAL(oComInd, ~data_bus);
 
          // проверка сигнала сброса
@@ -269,7 +271,7 @@ module tb_BskPRD;
          `CHECK_EQUAL(tmp[0], 1'b0);
 
          // проверка при сигнале блокировки
-         iBl = 1'b1; #1;
+         iBl = ~BL_LEVEL; #1;
          check_freq(tmp[0]);
          `CHECK_EQUAL(oTest, 1'b0); 
          `CHECK_EQUAL(tmp[0], 1'b0);
@@ -285,13 +287,13 @@ module tb_BskPRD;
          `CHECK_EQUAL(tmp[0], 1'b1);
 
          // проверка при сигнале блокировки
-         iBl = 1'b0; #1;
+         iBl = BL_LEVEL; #1;
          check_freq(tmp[0]);
          `CHECK_EQUAL(oTest, 1'b0); 
          `CHECK_EQUAL(tmp[0], 1'b0);
 
          // проверка при снятии сигнала блокировки
-         iBl = 1'b1; #1;
+         iBl = ~BL_LEVEL; #1;
          check_freq(tmp[0]);
          `CHECK_EQUAL(oTest, 1'b1); 
          `CHECK_EQUAL(tmp[0], 1'b1);

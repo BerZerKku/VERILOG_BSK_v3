@@ -21,6 +21,8 @@ module tb_BskPRM;
    localparam CS_32_17 = 4'b0101;
    localparam UNIT = 1'b0;
 
+   localparam BL_LEVEL = 1'b1;
+
 
    wire [15:0] bD;      // шина данных
    reg iRd;             // сигнал чтения (активный 0)
@@ -52,7 +54,7 @@ module tb_BskPRM;
       `TEST_SUITE_SETUP begin
          iCS = ~CS_16_01;
          iA = 2'b00;
-         iBl = 1'b0;
+         iBl = ~BL_LEVEL;
          iRes = 1'b0;
          iWr = 1'b1;
          iRd = 1'b1;
@@ -278,9 +280,9 @@ module tb_BskPRM;
          `CHECK_EQUAL(oComInd, ~data_bus);
 
          // проверка влияния сигнала блокировки
-         iBl = 1'b1; #1;
+         iBl = ~BL_LEVEL; #1;
          `CHECK_EQUAL(oComInd, ~data_bus);
-         iBl = 1'b0; #1;
+         iBl = BL_LEVEL; #1;
          `CHECK_EQUAL(oComInd, ~data_bus);
 
          // проверка сигнала сброса
@@ -296,7 +298,7 @@ module tb_BskPRM;
 
          iRes = 1'b1;
          iCS = CS_16_01;
-         iBl = 1'b1;
+         iBl = ~BL_LEVEL;
          iRes = 1'b1; #1;
 
          // запись корректного значения 1-8 команд
@@ -336,9 +338,9 @@ module tb_BskPRM;
             `CHECK_EQUAL(oCom, 16'hF7A5);
          end
          
-         iBl = 1'b0; #1;
+         iBl = BL_LEVEL; #1;
          `CHECK_EQUAL(oCom, 16'hFFFF);
-         iBl = 1'b1;
+         iBl = ~BL_LEVEL;
          iRes = 1'b0; #1;
          `CHECK_EQUAL(oCom, 16'hFFFF);
       end
@@ -347,7 +349,7 @@ module tb_BskPRM;
       `TEST_CASE("test_enable_signal") begin : test_enable_signal
          `CHECK_EQUAL(oEnable, 1'b1);
          
-         iBl = 1'b1;
+         iBl = ~BL_LEVEL;
          iRes = 1'b1;
          iCS = CS_16_01;
          `CHECK_EQUAL(oEnable, 1'b1);
@@ -357,9 +359,9 @@ module tb_BskPRM;
          `CHECK_EQUAL(oEnable, 1'b0);
          iCS = ~iCS; #1;
          `CHECK_EQUAL(oEnable, 1'b0);
-         iBl = 1'b0; #1;
+         iBl = BL_LEVEL; #1;
          `CHECK_EQUAL(oEnable, 1'b1);
-         iBl = 1'b1;
+         iBl = ~BL_LEVEL;
          iRes = 1'b0; #1;
          `CHECK_EQUAL(oEnable, 1'b1);
       end

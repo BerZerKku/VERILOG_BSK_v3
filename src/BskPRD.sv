@@ -3,9 +3,7 @@ module BskPRD (
     input  wire iRd,            // сигнал чтения (активный 0)
     input  wire iWr,            // сигнал записи (активный 0)
     input  wire iRes,           // сигнал сброса (активный 0)
-    input  wire iBl,            // сигнал блокирования (активный 0)
-    input  wire iDevice,        // ! не используется
-    input  wire clk,            // тактовая частота
+    input  wire iBl,            // сигнал блокирования (активный 1)
     input  wire [1:0] iA,       // шина адреса
     input  wire [3:0] iCS,      // сигнал выбора микросхемы 
     input  wire  unit,          // сигнал выбора блока 
@@ -62,8 +60,7 @@ module BskPRD (
     end 
     
     // Тестовый сигнал
-    assign oTest = (iBl && test_en) ? iTest : 1'b0; 
-//    assign oTest = (test_en) ? iTest : 1'b0; 
+    assign oTest = (!iBl && test_en) ? iTest : 1'b0; 
     
     // сигнал выбора микросхемы (активный 0)
     assign oCS = !cs;
@@ -72,7 +69,7 @@ module BskPRD (
     assign oComInd = ~com_ind;
     
     // сигналы отладки
-//    assign debug = in3;
+//    assign debug[0] = (!iBl && test_en);
     assign debug = 16'h0000;
     
     // двунаправленная шина данных
@@ -83,7 +80,9 @@ module BskPRD (
                       (iA == 2'b01) ? {~com[15:12],com[15:12],~com[11:8],com[11:8]}:
                       (iA == 2'b10) ? com_ind : 
                                       {unit_code, VERSION, test_en};  
-                      
+    
+
+	 
     // чтение данных 
     always @ (cs or iRd  or iA or aclr) begin : data_read
         if (aclr) begin
