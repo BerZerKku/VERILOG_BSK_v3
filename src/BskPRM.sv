@@ -1,8 +1,4 @@
-module BskPRM # (
-	parameter [5:0]	VERSION 	= 6'h31,		// версия прошивки
-	parameter [7:0]	PASSWORD	= 8'hA6,		// пароль
-	parameter [3:0]	CS			= 4'b0111		// адрес микросхемы
-) (
+module BskPRM (
 	inout  wire [15:0] bD,		// шина данных
 	input  wire iRd,			// сигнал чтения (активный 0)
 	input  wire iWr,			// сигнал записи (активный 0)
@@ -11,49 +7,59 @@ module BskPRM # (
 	input  wire iKEnable,		// сигнал работы клменника (активный 0)
 	input  wire [1:0] iA,		// шина адреса
 	input  wire [3:0] iCS,		// сигнал выбора микросхемы	
+	input  wire  unit,          // сигнал выбора блока 
+                                // - 0 -> 16_01 команды
+                                // - 1 -> 32_17 команды  
 	
 	input  wire [15:0] iComT,	// вход теста команд
 	output wire [15:0] oCom,	// выход команд (активный 0)
 	output wire [15:0] oComInd,	// выход индикации команд (активный 0)
+
 	output wire oCS,			// выход адреса микросхемы (активный 0)
 	output wire oEnable,		// выход разрешения работы клеммника (активный 0)
 
 	output wire [15:0] debug	// выход отладки
 );
 	
-	// код разрешения работы клеммника
-	localparam ENABLE  = 8'hE1; 
+	// Версия прошивки
+    localparam [5:0] VERSION = 7'h31;   
 
-	// команды
-	reg [15:0] com;
+    // Код выбора микросхемы (4'b0111 - 16_1 команды, 4'b0101 - 32_17 команды).    
+    localparam [3:0] CS = 4'b0111;
+
+    // Код модуля (8'hA6 - 16_1 команды, 8'hA7 - 32_17 команды).
+    localparam [7:0] UNIT_CODE = 8'hA6; 
+
+	// код разрешения работы клеммника
+	localparam [7:0] ENABLE  = 8'hE1; 
+
+	// команды (активный 0)
+	reg [15:0] com = 16'hFFFF;
 
 	// флаг ошибки в командах
-	reg [3:0] com_err;
+	reg [3:0] com_err = 4'b1111;
 
-	// команды индикации
-	reg [15:0] com_ind;
+	// команды индикации  (активный 1)
+	reg [15:0] com_ind = 16'h0000;
 
 	// команда управления
-	reg [7:0] control;	
-
-	// набор сигналов для чтения
-	wire [15:0] in3;
+	reg [7:0] control = 8'h00;	
 
 	// шина чтения
 	wire [15:0] data_bus;
 
+	// код модуля
+    wire [7:0] unit_code  = UNIT_CODE + unit; 
+
 	initial begin
-		control = 8'h00;
-		com  = 16'h0000;
-		com_err = 4'b1111;
-		com_ind = 16'h0000;	
+		//
 	end
 	
 	// сигнал сброса (активный 1)
 	assign aclr = !iRes;	
 
 	// сигнал выбора микросхемы (активный 1)
-	assign cs = (iCS == CS);
+    wire cs = (iCS == {CS[3:2], !unit, CS[0]});    
 
 	// сигнал блокировки (активный 1)
 	assign bl = !(iBl && iRes);
@@ -73,13 +79,11 @@ module BskPRM # (
 	// выход команд
 	assign oCom = (com_err || bl) ? 16'hFFFF : com;
 	
-	// набор сигналов для считывания 
-	assign in3 = (PASSWORD << 8) + (VERSION << 2) + (iKEnable << 1) + enable;
-	
 	// шина чтения
 	assign data_bus =	(iA == 2'b00) ? iComT : 
 						(iA == 2'b01) ? com : 
-						(iA == 2'b10) ? 16'h0000 : in3;
+						(iA == 2'b10) ? 16'h0000 :
+										{UNIT_CODE, VERSION, iKEnable, enable};
 
 	// двунаправленная шина данных
 	assign bD = (iRd || !cs) ? 16'bZ : data_bus; 
