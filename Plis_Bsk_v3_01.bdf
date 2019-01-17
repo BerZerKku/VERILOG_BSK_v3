@@ -997,8 +997,8 @@ agreement for further details.
 )
 (symbol
 	(rect -216 224 88 336)
-	(text "Filter" (rect 5 0 29 12)(font "Arial" ))
-	(text "inst1" (rect 8 96 31 108)(font "Arial" ))
+	(text "FilterN" (rect 5 0 38 12)(font "Arial" ))
+	(text "inst7" (rect 8 96 30 113)(font "Intel Clear" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -1232,11 +1232,6 @@ agreement for further details.
 	(pt 1176 592)
 )
 (connector
-	(text "clk_15625_Hz" (rect 769 320 836 337)(font "Intel Clear" ))
-	(pt 752 336)
-	(pt 864 336)
-)
-(connector
 	(text "TEST[8]" (rect 1081 616 1117 633)(font "Intel Clear" ))
 	(pt 1064 632)
 	(pt 1176 632)
@@ -1283,33 +1278,9 @@ agreement for further details.
 	(pt 408 504)
 )
 (connector
-	(text "clk_15625_Hz" (rect 769 616 836 633)(font "Intel Clear" ))
-	(pt 752 632)
-	(pt 864 632)
-)
-(connector
-	(text "led_clk_15625_Hz" (rect 921 616 1009 633)(font "Intel Clear" ))
-	(pt 912 632)
-	(pt 1016 632)
-)
-(connector
-	(pt 88 256)
-	(pt 408 256)
-	(bus)
-)
-(connector
-	(pt -360 256)
-	(pt -216 256)
-	(bus)
-)
-(connector
 	(text "clk_31250_Hz" (rect -311 256 -244 273)(font "Intel Clear" ))
 	(pt -328 272)
 	(pt -216 272)
-)
-(connector
-	(pt -216 288)
-	(pt -232 288)
 )
 (connector
 	(text "RES" (rect -311 272 -293 289)(font "Intel Clear" ))
@@ -1354,6 +1325,35 @@ agreement for further details.
 	(text "SW_BSK[2]" (rect -311 368 -256 385)(font "Intel Clear" ))
 	(pt -328 384)
 	(pt -216 384)
+)
+(connector
+	(pt -360 256)
+	(pt -216 256)
+	(bus)
+)
+(connector
+	(pt -232 288)
+	(pt -216 288)
+)
+(connector
+	(pt 88 256)
+	(pt 408 256)
+	(bus)
+)
+(connector
+	(text "clk_31250_Hz" (rect 769 320 836 337)(font "Intel Clear" ))
+	(pt 752 336)
+	(pt 864 336)
+)
+(connector
+	(text "clk_31250_Hz" (rect 769 616 836 633)(font "Intel Clear" ))
+	(pt 752 632)
+	(pt 864 632)
+)
+(connector
+	(text "led_clk" (rect 921 616 956 633)(font "Intel Clear" ))
+	(pt 912 632)
+	(pt 1016 632)
 )
 (text "LED8 connect to TEST5!!!" (rect 1192 384 1348 403)(font "Intel Clear" (color 255 0 0)(font_size 8)(bold)))
 (text "LE_PRD = 130 (was 144)" (rect 1192 288 1345 307)(font "Intel Clear" (color 255 0 0)(font_size 8)(bold)))
