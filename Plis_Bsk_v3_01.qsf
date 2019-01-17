@@ -181,10 +181,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[3]
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[2]
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to LED[0]
+set_global_assignment -name SYSTEMVERILOG_FILE src/filter.sv
 set_global_assignment -name SYSTEMVERILOG_FILE src/clkdiv.sv
 set_global_assignment -name SYSTEMVERILOG_FILE src/BskPRM.sv
 set_global_assignment -name SYSTEMVERILOG_FILE src/BskLED.sv
 set_global_assignment -name SYSTEMVERILOG_FILE src/BskPRD.sv
 set_global_assignment -name BDF_FILE Plis_Bsk_v3_01.bdf
-set_global_assignment -name BDF_FILE plis_bsk_v3_01.bdf
 set_global_assignment -name CDF_FILE output_files/CPLD_BSK_v3_01.cdf

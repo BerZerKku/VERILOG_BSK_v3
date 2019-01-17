@@ -17,7 +17,9 @@ lib = ui.add_library("lib")
 
 #lib.add_source_files(join(root, "src\\*.v"))
 lib.add_source_files(join(root, "src\\*.sv"))
+#lib.add_source_files(join(root, "src\\filter.sv"))
 lib.add_source_files(join(root, "src\\test\\*.sv"))
+#lib.add_source_files(join(root, "src\\test\\tb_filter.sv"))
 
 
 ui.main()
