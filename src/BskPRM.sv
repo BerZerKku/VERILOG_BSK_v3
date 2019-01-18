@@ -37,7 +37,7 @@ module BskPRM (
     reg [15:0] com = 16'hFFFF;
 
     // флаг ошибки в командах
-    reg [3:0] com_err = 4'b1111;
+    reg [1:0] com_err = 2'b11;
 
     // команды индикации  (активный 1)
     reg [15:0] com_ind = 16'h0000;
@@ -96,7 +96,7 @@ module BskPRM (
         if (aclr) begin
             control <=  8'h00;
             com <= 16'h0000;
-            com_err <= 4'b1111;
+            com_err <= 2'b11;
             com_ind <= 16'h0000;    
         end
         else if (cs && iWr) begin
@@ -104,14 +104,12 @@ module BskPRM (
                 2'b00: begin 
                     com[3:0] <= bD[7:4];
                     com[7:4] <= bD[15:12];  
-                    com_err[0] <= !(bD[3:0] == ~bD[7:4]);
-                    com_err[1] <= !(bD[11:8] == ~bD[15:12]);
+                    com_err[0] <= !({bD[11:8], bD[3:0]} == ~{bD[15:12], bD[7:4]});  
                 end
                 2'b01: begin
                     com[11:8] <= bD[7:4];
                     com[15:12] <= bD[15:12];
-                    com_err[2] <= !(bD[3:0] == ~bD[7:4]);
-                    com_err[3] <= !(bD[11:8] == ~bD[15:12]);
+                    com_err[1] <= !({bD[11:8], bD[3:0]} == ~{bD[15:12], bD[7:4]}); 
                 end
                 2'b10: begin
                     com_ind <= bD;

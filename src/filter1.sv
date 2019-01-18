@@ -2,7 +2,7 @@ module Filter1 # (
 	parameter FILTER_WIDTH = 2      // количество бит для фильтрации (2^n - 1)
 ) (
     input  wire in,   // вход
-    output reg  out,  // выход
+    output wire  out,  // выход
 
     input wire clk,   // тактовая частота
     input wire aclr   // сброс (активный 1)

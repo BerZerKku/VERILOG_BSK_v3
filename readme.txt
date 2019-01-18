@@ -3,7 +3,7 @@ Plis_Bsk_v3_01
 
 Прошивка ПЛИС для платы АВАНТ BSK_02v4 (U1 ALTERA MAX V 5M240ZT144I5N). Написана на Verilog.
 
-Quartus 13.0 sp1
+Quartus 16.1 Lite Edition
 python 2.7.14
 vunit-hdl (3.0.2)
 
